@@ -13,7 +13,7 @@ try:
 except ImportError:
     from langchain_community.vectorstores import Chroma
 
-from config import DATA_DIR, OPENAI_API_KEY, DOCUMENTS_DIR
+from config import DATA_DIR, OPENAI_API_KEY, DOCUMENTS_DIR, OPENAI_BASE_URL, USE_PROXYAPI
 from utils.logging import logger
 from rag.loader import document_loader
 
@@ -34,10 +34,15 @@ class VectorIndex:
         self.persist_directory = Path(persist_directory)
         self.persist_directory.mkdir(parents=True, exist_ok=True)
         
-        # Initialize embeddings
+        # Initialize embeddings with ProxyAPI support
         self.embeddings = OpenAIEmbeddings(
-            openai_api_key=OPENAI_API_KEY
+            openai_api_key=OPENAI_API_KEY,
+            openai_api_base=OPENAI_BASE_URL,
+            check_embedding_ctx_length=False
         )
+        
+        if USE_PROXYAPI:
+            logger.info(f"Embeddings initialized with ProxyAPI: {OPENAI_BASE_URL}")
         
         # Initialize or load vector store
         self.vectorstore = None
