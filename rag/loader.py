@@ -107,7 +107,7 @@ class DocumentLoader:
             List of text chunks
         """
         try:
-            from langchain.schema import Document
+            from langchain_core.documents import Document
             
             # Create document
             document = Document(

@@ -86,7 +86,7 @@ class TestAudioHelpers:
     
     def test_convert_ogg_to_wav_mock(self):
         """Test OGG to WAV conversion (mocked)."""
-        with patch('utils.helpers.AudioSegment') as mock_audio:
+        with patch('pydub.AudioSegment') as mock_audio:
             from utils.helpers import convert_ogg_to_wav
             
             # Mock AudioSegment

@@ -8,7 +8,10 @@ from pathlib import Path
 import chromadb
 from chromadb.config import Settings
 from langchain_openai import OpenAIEmbeddings
-from langchain_community.vectorstores import Chroma
+try:
+    from langchain_chroma import Chroma
+except ImportError:
+    from langchain_community.vectorstores import Chroma
 
 from config import DATA_DIR, OPENAI_API_KEY, DOCUMENTS_DIR
 from utils.logging import logger
