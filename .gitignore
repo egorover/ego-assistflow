@@ -25,6 +25,7 @@ wheels/
 
 # Virtual Environment
 venv/
+.venv/
 env/
 ENV/
 
@@ -37,8 +38,9 @@ ENV/
 
 # Data
 data/embeddings.db
-data/documents/*
+data/documents/*.txt
 !data/documents/.gitkeep
+data/chroma_db/
 *.ogg
 *.wav
 *.mp3
