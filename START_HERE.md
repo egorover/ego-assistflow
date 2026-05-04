@@ -8,6 +8,24 @@
 - 📸 Анализа изображений (GPT-4 Vision)
 - 📚 Базы знаний (RAG с LangChain)
 
+## 📚 Документация
+
+### Главная документация
+**Начните здесь:** [**README.md**](README.md) - полная информация о проекте
+
+### Путеводитель по документации
+[**docs/INDEX.md**](docs/INDEX.md) - навигация по всем документам
+
+### Быстрые руководства
+- [**QUICKSTART.md**](QUICKSTART.md) - быстрые команды
+- [**PROXYAPI_SETUP.md**](PROXYAPI_SETUP.md) - настройка API (для РФ)
+- [**README_VENV.md**](README_VENV.md) - виртуальное окружение
+
+### Специализированные
+- [**RAG_GUIDE.md**](RAG_GUIDE.md) - база знаний
+- [**README_IMAGE_GENERATION.md**](README_IMAGE_GENERATION.md) - генерация изображений
+- [**VISUAL_GUIDE.md**](VISUAL_GUIDE.md) - архитектура
+
 ## ⚡ Быстрый старт (5 минут)
 
 ### Шаг 1: Получите API ключи
