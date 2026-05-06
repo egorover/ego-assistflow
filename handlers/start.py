@@ -143,30 +143,39 @@ async def cmd_stats(message: types.Message):
         
         stats = get_knowledge_base_stats()
         
-        if "error" in stats:
+        if "error" in stats and stats.get("total_documents", 0) == 0:
             await bot.send_message(
                 message.chat.id,
-                f"⚠️ Ошибка получения статистики:\n{stats['error']}"
+                "Error getting statistics.",
+                parse_mode='HTML'
             )
             return
         
         total_docs = stats.get("total_documents", 0)
-        persist_dir = stats.get("persist_directory", "N/A")
+        persist_dir = stats.get("persist_directory", 'N/A')
         
-        stats_text = f"""📊 **Статистика базы знаний**
-
-📄 Документов в индексе: {total_docs}
-💾 Директория: {persist_dir}
-
-{"✅ База знаний готова к использованию!" if total_docs > 0 else "⚠️ База знаний пуста. Добавьте документы в data/documents/"}
-
-Используйте /mode rag для работы с базой знаний."""
+        if total_docs > 0:
+            stats_text = (
+                f"<b>Statistics:</b> {total_docs} documents in index\n"
+                f"Directory: {persist_dir}"
+            )
+        else:
+            stats_text = (
+                f"<b>Statistics:</b> {total_docs} documents in index\n"
+                f"Directory: {persist_dir}\n"
+                f"Knowledge base is empty."
+            )
         
-        await bot.send_message(message.chat.id, stats_text)
-        
-    except Exception as e:
-        logger.error(f"Error getting stats: {e}")
         await bot.send_message(
             message.chat.id,
-            "⚠️ Ошибка получения статистики базы знаний."
+            stats_text,
+            parse_mode='HTML'
+        )
+
+    except Exception as e:
+        logger.error(f"Error getting stats: {e}", exc_info=True)
+        await bot.send_message(
+            message.chat.id,
+            "Error getting statistics.",
+            parse_mode='HTML'
         )
