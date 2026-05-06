@@ -106,12 +106,26 @@ async def handle_voice_message(message: types.Message):
         # Process voice request
         response = await route_voice_request(user_id, voice_file_path)
         
+        # Check for error in response
+        if response.get("error"):
+            error_msg = response["text"]
+            if "transcription" in error_msg.lower():
+                error_msg = "❌ Не удалось распознать голосовое сообщение.\nПопробуйте еще раз."
+            await bot.send_message(
+                message.chat.id,
+                error_msg,
+                parse_mode='HTML'
+            )
+            return
+        
         # Send transcription
+        transcription = response.get("transcription", "")
         await bot.send_message(
             message.chat.id,
-            f"🎤 **Распознано:**\n_{response['transcription']}_\n"
+            f"🎤 <b>Распознано:</b>\n<i>{transcription}</i>\n",
+            parse_mode='HTML'
         )
-        
+    
         # Check if response contains an image
         if response.get('has_image') and response.get('image_path'):
             # Send text response first
@@ -160,12 +174,21 @@ async def handle_voice_message(message: types.Message):
         await bot.send_message(
             message.chat.id,
             "❌ Произошла ошибка при обработке голосового сообщения.\n"
-            "Попробуйте еще раз."
+            "Попробуйте еще раз.",
+            parse_mode='HTML'
         )
     
     finally:
-        # Cleanup temporary files
-        cleanup_files(voice_file_path, audio_response_path, image_path)
+        # Cleanup temporary files safely
+        try:
+            if voice_file_path:
+                cleanup_file(voice_file_path)
+            if audio_response_path:
+                cleanup_file(audio_response_path)
+            if image_path:
+                cleanup_file(image_path)
+        except Exception as cleanup_error:
+            logger.warning(f"Error during cleanup: {cleanup_error}")
 
 
 @bot.message_handler(content_types=['audio'])
