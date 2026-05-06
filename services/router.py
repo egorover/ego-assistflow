@@ -239,10 +239,10 @@ async def route_image_generation_request(
     original_text: str,
     size: str = "1024x1024",
     quality: str = "standard",
-    style: str = "vivid"
+    style: str = "natural"
 ) -> Dict[str, Any]:
     """
-    Route image generation request: generate image with DALL-E.
+    Route image generation request: generate image with GPT Image 1.5.
     
     Args:
         user_id: User ID
@@ -250,13 +250,13 @@ async def route_image_generation_request(
         original_text: Original user text
         size: Image size (1024x1024, 1024x1792, 1792x1024)
         quality: Image quality (standard, hd)
-        style: Image style (vivid, natural)
+        style: Image style (vivid, natural) - natural for realistic images
     
     Returns:
-        Response dictionary with 'text', 'image_path', and generation details
+        Dictionary with 'text', 'image_path', and generation details
     """
     try:
-        logger.info(f"Generating image for user {user_id}: {prompt[:100]}...")
+        logger.info(f"Generating image with GPT Image 1.5 for user {user_id}: {prompt[:100]}...")
         
         # Generate image
         result = await generate_image(

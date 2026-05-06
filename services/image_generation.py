@@ -21,7 +21,7 @@ GENERATED_IMAGES_DIR.mkdir(exist_ok=True)
 
 async def detect_image_generation_intent(text: str, conversation_history: list = None) -> Dict[str, Any]:
     """
-    Detect if user wants to generate an image using GPT.
+    Detect if user wants to generate an image using DALL-E 3.
     
     Args:
         text: User's message text
@@ -60,7 +60,7 @@ async def detect_image_generation_intent(text: str, conversation_history: list =
 Ответь СТРОГО в формате JSON:
 {{
     "needs_generation": true/false,
-    "prompt": "улучшенный промпт для DALL-E на английском языке (если needs_generation=true)",
+    "prompt": "улучшенный промпт для DALL-E 3 на английском языке (если needs_generation=true)",
     "confidence": 0.0-1.0
 }}
 
@@ -114,22 +114,22 @@ async def generate_image(
     prompt: str,
     size: str = "1024x1024",
     quality: str = "standard",
-    style: str = "vivid"
+    style: str = "natural"
 ) -> Dict[str, Any]:
     """
-    Generate an image using DALL-E API.
+    Generate an image using OpenAI GPT Image 1.5 (DALL-E 3) API.
     
     Args:
         prompt: Text description of the image to generate
-        size: Image size (256x256, 512x512, 1024x1024, 1024x1792, 1792x1024)
+        size: Image size (1024x1024, 1024x1792, 1792x1024)
         quality: Image quality (standard, hd)
-        style: Image style (vivid, natural)
+        style: Image style (vivid, natural) - natural for realistic images
     
     Returns:
         Dictionary with 'image_path', 'revised_prompt', and 'url'
     """
     try:
-        logger.info(f"Generating image with DALL-E: {prompt[:100]}...")
+        logger.info(f"Generating image with GPT Image 1.5: {prompt[:100]}...")
         
         # Prepare API request
         headers = {
@@ -138,7 +138,7 @@ async def generate_image(
         }
         
         payload = {
-            "model": "dall-e-3",
+            "model": "gpt-image-1.5",
             "prompt": prompt,
             "n": 1,
             "size": size,
