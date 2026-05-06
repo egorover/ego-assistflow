@@ -146,7 +146,7 @@ async def cmd_stats(message: types.Message):
         if "error" in stats and stats.get("total_documents", 0) == 0:
             await bot.send_message(
                 message.chat.id,
-                "Error getting statistics.",
+                "⚠️ Error getting statistics.",
                 parse_mode='HTML'
             )
             return
@@ -156,14 +156,19 @@ async def cmd_stats(message: types.Message):
         
         if total_docs > 0:
             stats_text = (
-                f"<b>Statistics:</b> {total_docs} documents in index\n"
-                f"Directory: {persist_dir}"
+                f"📊 <b>Statistics</b>\n\n"
+                f"📄 Documents in index: {total_docs}\n"
+                f"💾 Directory: {persist_dir}\n\n"
+                f"✅ Knowledge base ready!\n\n"
+                f"Use /mode rag to work with the knowledge base."
             )
         else:
             stats_text = (
-                f"<b>Statistics:</b> {total_docs} documents in index\n"
-                f"Directory: {persist_dir}\n"
-                f"Knowledge base is empty."
+                f"📊 <b>Statistics</b>\n\n"
+                f"📄 Documents in index: {total_docs}\n"
+                f"💾 Directory: {persist_dir}\n\n"
+                f"⚠️ Knowledge base is empty. Add documents to data/documents/\n\n"
+                f"Use /mode rag to work with the knowledge base."
             )
         
         await bot.send_message(
@@ -176,6 +181,6 @@ async def cmd_stats(message: types.Message):
         logger.error(f"Error getting stats: {e}", exc_info=True)
         await bot.send_message(
             message.chat.id,
-            "Error getting statistics.",
+            "⚠️ Error getting statistics. Try again later.",
             parse_mode='HTML'
         )
