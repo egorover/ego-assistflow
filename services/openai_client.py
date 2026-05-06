@@ -140,11 +140,12 @@ class OpenAIClient:
                 response = await self.client.audio.transcriptions.create(
                     model=model,
                     file=audio_file,
-                    response_format="text"
+                    response_format="json"
                 )
             
-            logger.info(f"Audio transcribed: {len(response)} characters")
-            return response
+            text = response.text if hasattr(response, 'text') else str(response)
+            logger.info(f"Audio transcribed: {len(text)} characters")
+            return text
             
         except Exception as e:
             logger.error(f"Error transcribing audio: {e}")
