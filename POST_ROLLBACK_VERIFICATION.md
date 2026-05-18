@@ -40,15 +40,16 @@ nothing to commit, working tree clean
 ### 2. Конфигурация
 
 ```env
-TELEGRAM_BOT_TOKEN=ваш_токен
-OPENAI_API_KEY=ваш_ключ
+# API ключи хранятся только в .env (не коммитится!)
+# TELEGRAM_BOT_TOKEN=ваш_токен
+# OPENAI_API_KEY=ваш_ключ
 USE_PROXYAPI=true
 BOT_MODE=text
 DEFAULT_VOICE=alloy
 LOG_LEVEL=INFO
 ```
 
-**Статус:** ✅ Все ключи настроены
+**Статус:** ✅ Ключи загружаются из `.env` (безопасно)
 
 ---
 
